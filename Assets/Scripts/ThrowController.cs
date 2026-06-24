@@ -5,7 +5,7 @@ public class ThrowController : MonoBehaviour
 {
 	[SerializeField] GameObject ItemPrefab; // 投擲物
 	[SerializeField] Transform handPoint; // 手の生成位置
-	[SerializeField] float ThrowForce = 15f; // 投げる強さ
+	[SerializeField] float ThrowForce = 20f; // 投げる強さ
 
 	private Animator animator; // コンポーネント参照用
 	private GameObject CurrentItem; // 現在手に持っているアイテム
@@ -31,7 +31,7 @@ public class ThrowController : MonoBehaviour
 			}
 		}
 	}
-	
+
 	// 放す瞬間
 	public void ThrowItemEvent()
 	{
