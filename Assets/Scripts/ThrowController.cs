@@ -5,7 +5,9 @@ public class ThrowController : MonoBehaviour
 {
 	[SerializeField] GameObject ItemPrefab; // 投擲物
 	[SerializeField] Transform handPoint; // 手の生成位置
-	[SerializeField] float ThrowForce = 20f; // 投げる強さ
+	[SerializeField] float ThrowForce = 200f; // 投げる強さ
+
+	[SerializeField] public AudioClip ThrowSE;
 
 	private Animator animator; // コンポーネント参照用
 	private GameObject CurrentItem; // 現在手に持っているアイテム
@@ -43,6 +45,7 @@ public class ThrowController : MonoBehaviour
 		{
 			rb.isKinematic = false;
 			rb.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
+			AudioSource.PlayClipAtPoint(ThrowSE, transform.position);
 		}
 		CurrentItem= null;
 	}
