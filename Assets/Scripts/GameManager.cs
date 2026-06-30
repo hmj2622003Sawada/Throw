@@ -1,5 +1,8 @@
-using UnityEngine;
 using TMPro; // TextMeshProを使うために必要
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using System.Collections; // コルーチン（IEnumerator）を使うために必要
 
 public class GameManager : MonoBehaviour
 {
@@ -30,18 +33,24 @@ public class GameManager : MonoBehaviour
 	void Update()
 	{
 		if (!isGameActive) return;
+			// 時間を減らす
+			timeRemaining -= Time.deltaTime;
 
-		// 時間を減らす
-		timeRemaining -= Time.deltaTime;
-
-		if (timeRemaining <= 0f)
-		{
-			timeRemaining = 0f;
-			isGameActive = false;
-			GameOver();
-		}
-
+			if (timeRemaining <= 0f)
+			{
+				timeRemaining = 0f;
+				isGameActive = false;
+			StartCoroutine(GoToTitleAfterDelay(5f)); // 5秒待って遷移する
+			}
+		
 		UpdateTimeUI();
+	}
+
+	// 修正ポイント：指定された秒数待機してからシーンを遷移させるコルーチン
+	private IEnumerator GoToTitleAfterDelay(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		SceneManager.LoadScene("TitleScene");
 	}
 
 	// スコアを増やすメソッド（他のスクリプトから呼ばれる）
@@ -63,12 +72,7 @@ public class GameManager : MonoBehaviour
 		timeText.text = $"Time: {timeRemaining:F1}s"; // 小数点第1位まで表示
 	}
 
-	void GameOver()
-	{
-		timeText.text = "TIME UP!";
-		Debug.Log($"Finish! :Total Score{score}");
-		// ここにゲームオーバー画面の表示などを後から追加できます
-	}
+
 
 	// ゲームが実行中かどうかを外部から判定するためのプロパティ
 	public bool IsGameActive => isGameActive;
